@@ -9,6 +9,7 @@ import {
 import "dotenv/config";
 import * as fs from "fs";
 import erc20Abi from "../erc20.json" with { type: 'json' };
+import labelsAbi from "../labels.json" with { type: 'json' };
 import BigNumber from "bignumber.js";
 
 const DEPLOYED_CONTRACT =
@@ -127,16 +128,11 @@ const main = async () => {
     process.env.STARKNET_PRIVATE_KEY
   );
 
-  //await exportAbiToFile(provider);
-
-  // Load the contract ABI from the file
-  const abi = json.parse(fs.readFileSync("./labels.json").toString("ascii"));
-
   // Connect the contract
-  const erc721 = new Contract(abi, DEPLOYED_CONTRACT, provider);
+  const erc721 = new Contract(labelsAbi, DEPLOYED_CONTRACT, provider);
   erc721.connect(account);
 
-  //await getContractName(erc721);
+  await getContractName(erc721);
 
   // Mint NFTs ERC721
   /* await mintNft(
@@ -145,7 +141,7 @@ const main = async () => {
     provider,
     account.address,
     mapTokenIdUri.get(3)
-  );
+  ); 
 
   await tokenBalance(erc721, account.address);
 
@@ -154,7 +150,7 @@ const main = async () => {
   await getTotalSupply(erc721); */
 
   // Transfer ETH ERC20
-  const erc20Eth = new Contract(erc20Abi, ADDR_ETH, provider);
+  /* const erc20Eth = new Contract(erc20Abi, ADDR_ETH, provider);
   erc20Eth.connect(account);
 
   await getEthBalance(erc20Eth, account);
@@ -167,7 +163,7 @@ const main = async () => {
     "0x0536e6dc3bf60e99a18540614aa3246bcb4f9e68c0e6e681c0d3557b208cebec"
   );
 
-  await getEthBalance(erc20Eth, account);
+  await getEthBalance(erc20Eth, account); */
 };
 
 main().catch(console.error);
